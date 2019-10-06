@@ -25,6 +25,17 @@ choose the best DNS forwarder for your network, `dnseval` lets you compare
 different DNS servers from performance (latency) and reliability (loss) point
 of view.
 
+# Docker usage
+
+You can use all of these tools within a Docker container, without the need to
+install them on your local system. Just start the Python scripts like this:
+
+```
+docker run --rm -ti taskinen/dnsdiag ./dnsping.py
+docker run --rm -ti taskinen/dnsdiag ./dnstraceroute.py
+docker run --rm -ti taskinen/dnsdiag ./dnseval.py
+```
+
 # prerequisites
 This script requires python3 as well as latest
 [dnspython](http://www.dnspython.org/) and
