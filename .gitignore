@@ -6,6 +6,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .idea/
+.vscode/
 whois.cache
 
 # C extensions
@@ -65,3 +66,4 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+results.json

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2016, Babak Farrokhi
+# Copyright (c) 2020, Babak Farrokhi
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ import cymruwhois
 # Global Variables
 __author__ = 'Babak Farrokhi (babak@farrokhi.net)'
 __license__ = 'BSD'
-__version__ = "1.6.4"
+__version__ = "1.7.0"
 _ttl = None
 quiet = False
 whois_cache = {}
@@ -88,6 +88,7 @@ class Colors(object):
 
 
 def whois_lookup(ip):
+    asn = None
     try:
         global whois_cache
         currenttime = time.time()
@@ -100,9 +101,9 @@ def whois_lookup(ip):
             c = cymruwhois.Client()
             asn = c.lookup(ip)
             whois_cache[ip] = (asn, currenttime)
-        return asn
     except Exception as e:
-        return e
+        pass
+    return asn
 
 
 def load_whois_cache(cachefile):
@@ -246,6 +247,7 @@ def main():
     use_edns = True
     color_mode = False
 
+    args = None
     try:
         opts, args = getopt.getopt(sys.argv[1:], "aqhc:s:S:t:w:p:nexC",
                                    ["help", "count=", "server=", "quiet", "type=", "wait=", "asn", "port", "expert",
@@ -281,7 +283,7 @@ def main():
             dest_port = int(a)
         elif o in ("-C", "--color"):
             color_mode = True
-        elif o in ("-n"):
+        elif o in "-n":
             should_resolve = False
         elif o in ("-a", "--asn"):
             as_lookup = True
@@ -338,17 +340,21 @@ def main():
         icmp_socket.settimeout(timeout)
 
         curr_addr = None
-        curr_host = None
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:  # dispatch dns lookup to another thread
             stime = time.perf_counter()
             thr = pool.submit(ping, resolver, hostname, dnsrecord, ttl, src_ip=src_ip, use_edns=use_edns)
 
             try:  # expect ICMP response
-                _, curr_addr = icmp_socket.recvfrom(512)
-                curr_addr = curr_addr[0]
+                packet, curr_addr = icmp_socket.recvfrom(512)
+                if len(packet) > 51:
+                    icmp_type = packet[20]
+                    udp_port = packet[50] << 8 | packet[51]
+                    if icmp_type == 11 and udp_port == dest_port:
+                        curr_addr = curr_addr[0]
+                    else:
+                        curr_addr = None
             except socket.error:
-                etime = time.perf_counter()
                 pass
             finally:
                 etime = time.perf_counter()

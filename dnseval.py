@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2016, Babak Farrokhi
+# Copyright (c) 2020, Babak Farrokhi
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,8 @@ import os
 
 import getopt
 import ipaddress
+import datetime
+import json
 import signal
 import socket
 import sys
@@ -42,7 +44,7 @@ import dns.resolver
 
 __author__ = 'Babak Farrokhi (babak@farrokhi.net)'
 __license__ = 'BSD'
-__version__ = "1.6.4"
+__version__ = "1.7.0"
 __progname__ = os.path.basename(sys.argv[0])
 shutdown = False
 
@@ -229,6 +231,7 @@ def main():
     waittime = 2
     inputfilename = None
     fromfile = False
+    save_json = False
     use_tcp = False
     use_edns = True
     force_miss = False
@@ -238,7 +241,7 @@ def main():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hf:c:t:w:TevCm",
-                                   ["help", "file=", "count=", "type=", "wait=", "tcp", "edns", "verbose", "color",
+                                   ["help", "file=", "count=", "type=", "wait=", "json", "tcp", "edns", "verbose", "color",
                                     "force-miss"])
     except getopt.GetoptError as err:
         print(err)
@@ -265,6 +268,8 @@ def main():
             dnsrecord = a
         elif o in ("-T", "--tcp"):
             use_tcp = True
+        elif o in ("-j", "--json"):
+            save_json = True
         elif o in ("-e", "--edns"):
             use_edns = False
         elif o in ("-C", "--color"):
@@ -355,6 +360,22 @@ def main():
             print("%s    %-8.3f    %-8.3f    %-8.3f    %-8.3f    %s%%%-3d%s     %-8s  %21s" % (
                 resolver, r_avg, r_min, r_max, r_stddev, l_color, r_lost_percent, color.N, s_ttl, text_flags),
                   flush=True)
+            if save_json:
+                dns_data = {}
+                dns_data['hostname'] = hostname
+                dns_data['timestamp'] = str(datetime.datetime.now())
+                dns_data['r_min'] = r_min
+                dns_data['r_avg'] = r_avg
+                dns_data['resolver'] = resolver
+                dns_data['r_max'] = r_max
+                dns_data['r_lost_percent'] = r_lost_percent
+                dns_data['s_ttl'] = s_ttl
+                dns_data['text_flags'] = text_flags
+                outer_data = {}
+                outer_data['hostname'] = hostname
+                outer_data['data'] = dns_data 
+                with open('results.json', 'a+') as outfile:
+                    json.dump(outer_data, outfile)
             if verbose and hasattr(answers, 'response'):
                 ans_index = 1
                 for answer in answers.response.answer:

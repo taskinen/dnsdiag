@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2016, Babak Farrokhi
+# Copyright (c) 2020, Babak Farrokhi
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ import dns.resolver
 
 __author__ = 'Babak Farrokhi (babak@farrokhi.net)'
 __license__ = 'BSD'
-__version__ = "1.6.4"
+__version__ = "1.7.0"
 __progname__ = os.path.basename(sys.argv[0])
 shutdown = False
 
@@ -224,7 +224,7 @@ def main():
             if time_to_next > 0:
                 time.sleep(time_to_next)
 
-    r_sent = i + 1
+    r_sent = i
     r_received = len(response_time)
     r_lost = r_sent - r_received
     r_lost_percent = (100 * r_lost) / r_sent
