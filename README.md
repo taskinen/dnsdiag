@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/farrokhi/dnsdiag.svg)](https://travis-ci.org/farrokhi/dnsdiag) [![PyPI](https://img.shields.io/pypi/v/dnsdiag.svg?maxAge=8600)](https://pypi.python.org/pypi/dnsdiag/) [![PyPI](https://img.shields.io/pypi/l/dnsdiag.svg?maxAge=8600)]() [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffarrokhi%2Fdnsdiag.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffarrokhi%2Fdnsdiag?ref=badge_shield) [![PyPI](https://img.shields.io/pypi/pyversions/dnsdiag.svg?maxAge=8600)]() [![GitHub stars](https://img.shields.io/github/stars/farrokhi/dnsdiag.svg?style=social&label=Star&maxAge=8600)](https://github.com/farrokhi/dnsdiag/stargazers)
+[![Build Status](https://travis-ci.org/farrokhi/dnsdiag.svg)](https://travis-ci.org/farrokhi/dnsdiag) [![PyPI](https://img.shields.io/pypi/v/dnsdiag.svg?maxAge=8600)](https://pypi.python.org/pypi/dnsdiag/) [![PyPI](https://img.shields.io/pypi/l/dnsdiag.svg?maxAge=8600)]() [![PyPI](https://img.shields.io/pypi/pyversions/dnsdiag.svg?maxAge=8600)]() [![GitHub stars](https://img.shields.io/github/stars/farrokhi/dnsdiag.svg?style=social&label=Star&maxAge=8600)](https://github.com/farrokhi/dnsdiag/stargazers)
 
 DNS Diagnostics and Performance Measurement Tools
 ==================================================
 
-Ever been wondering if your ISP is [hijacking your DNS traffic](https://decentralize.today/is-your-isp-hijacking-your-dns-traffic-f3eb7ccb0ee7#.fevks5wyc)? Ever observed any
+Ever been wondering if your ISP is [hijacking your DNS traffic](https://medium.com/decentralize-today/is-your-isp-hijacking-your-dns-traffic-f3eb7ccb0ee7)? Ever observed any
 misbehavior with your DNS responses? Ever been redirected to wrong address and
 suspected something is wrong with your DNS? Here we have a [set of tools](http://github.com/farrokhi/dnsdiag) to
 perform basic audits on your DNS requests and responses to make sure your DNS is
@@ -138,4 +138,3 @@ Babak Farrokhi
 
 dnsdiag is released under a 2 clause BSD license.
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffarrokhi%2Fdnsdiag.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffarrokhi%2Fdnsdiag?ref=badge_large)
